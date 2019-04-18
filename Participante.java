@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 public class Participante extends Pessoa
 {
-	private ArrayList<Horario> horarios;
+	private ArrayList<Intervalo> intervalos;
 
 	Participante(){
-		this.horarios = new ArrayList<>();
+		this.intervalos = new ArrayList<>();
 	}
-	public void adicionaHorario(LocalDateTime inicio, LocalDateTime fim){
-		Horario h = new Horario(inicio, fim);
-		horarios.add(h);					
+	public void adicionaIntervalo(LocalDateTime inicio, LocalDateTime fim){
+		Intervalo i = new Intervalo(inicio, fim);
+		intervalos.add(i);					
 	}
-	public Horario getHorario(int indice){
-		if(indice < 0 || indice >= horarios.size())
+	public Intervalo getIntervalo(int indice){
+		if(indice < 0 || indice >= intervalos.size())
 			return null;
 		else
-			return horarios.get(indice);
+			return intervalos.get(indice);
 	}
 }
