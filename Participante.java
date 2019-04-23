@@ -1,12 +1,22 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
-public abstract class Participante extends Pessoa
+
+public class Participante extends Pessoa
 {
-	LocalDateTime inicio;
-	LocalDateTime fim;
+	private ArrayList<Intervalo> intervalos;
 
-	public abstract LocalDateTime getInicio();
-	public abstract void setInicio(String inicio);
-	public abstract LocalDateTime getFim();
-	public abstract void setFim(String fim);
+	Participante(){
+		this.intervalos = new ArrayList<>();
+	}
+	public void adicionaIntervalo(LocalDateTime inicio, LocalDateTime fim){
+		Intervalo i = new Intervalo(inicio, fim);
+		intervalos.add(i);					
+	}
+	public Intervalo getIntervalo(int indice){
+		if(indice < 0 || indice >= intervalos.size())
+			return null;
+		else
+			return intervalos.get(indice);
+	}
 }
