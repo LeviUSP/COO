@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Scanner;
 import java.util.Collection;
 import java.util.HashMap;
 import java.time.LocalDate;
@@ -17,11 +18,16 @@ public class MarcadorDeReuniao
 			participantes.put(interador, atual);
 		}
 	
+		Scanner sc = new Scanner(System.in);
+		Pessoa organizador = new Pessoa();
+		organizador.setNome(sc.next());
 	
-		reuniao = new Reuniao(dataInicial, dataFinal);
+		reuniao = new Reuniao(dataInicial, dataFinal, participantes, organizador);
 
 	}
 	public void indicaDisponibilidadeDe(String participante, LocalDateTime inicio, LocalDateTime fim){
+		Participante participanteAtual = reuniao.buscaParticipante(participante);
+
 
 	}
 	public void mostraSobreposicao(){

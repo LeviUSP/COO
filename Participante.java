@@ -6,7 +6,7 @@ public class Participante extends Pessoa
 {
 	private ArrayList<Intervalo> intervalos;
 
-	Participante(){
+	public Participante(){
 		this.intervalos = new ArrayList<>();
 	}
 	public void adicionaIntervalo(LocalDateTime inicio, LocalDateTime fim){
