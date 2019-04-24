@@ -32,8 +32,8 @@ public class MarcadorDeReuniao
 	}
 
 
-	//métodos para auxiliares
-	HashMap<String, Participante> criarHashMapComParticipantes(Collection<String> listaDeParticipantes){
+	//métodos auxiliares
+	private HashMap<String, Participante> criarHashMapComParticipantes(Collection<String> listaDeParticipantes){
 		HashMap<String, Participante> participantes = new HashMap<>();
 		
 		for (String interador : listaDeParticipantes){
