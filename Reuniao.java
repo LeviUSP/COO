@@ -27,10 +27,8 @@ public class Reuniao
 	public LocalDate getDataFinal(){
 
 	}
-	public void imprimeDadosDosParticipantes(){
 
-	}
 	public void imprimeDadosDaReuniao(){
-
+		
 	}
 }

@@ -11,7 +11,7 @@ public class MarcadorDeReuniao
 
 	public void marcarReuniaoEntre(LocalDate dataInicial, LocalDate dataFinal, Collection<String> listaDeParticipantes){
 		HashMap<String, Participante> participantes = criarHashMapComParticipantes(listaDeParticipantes);
-		
+		 
 
 		Scanner sc = new Scanner(System.in);
 		
@@ -24,12 +24,20 @@ public class MarcadorDeReuniao
 	}
 	public void indicaDisponibilidadeDe(String participante, LocalDateTime inicio, LocalDateTime fim){
 		Participante participanteAtual = reuniao.buscaParticipante(participante);
-
-
+		LocalDateTime dataInicialDaReuniao = LocalDateTime.from(reuniao.getDataInicial());
+		LocalDateTime dataFinalDaReuniao = LocalDateTime.from(reuniao.getDataFinal());
+		
+		
+		if(inicio.isAfter(dataInicialDaReuniao) && fim.isBefore(dataFinalDaReuniao))
+			participanteAtual.adicionaIntervalo(inicio, fim);
+		else
+			System.err.println("O horario inserido nao eh compativel com o da reuniao");
 	}
+
 	public void mostraSobreposicao(){
-
+		HashMap<String, Participante> listaDeParticipantes = reuniao.
 	}
+	
 
 
 	//métodos auxiliares

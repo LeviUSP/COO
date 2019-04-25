@@ -19,4 +19,8 @@ public class Participante extends Pessoa
 		else
 			return intervalos.get(indice);
 	}
+
+	public void imprimeDadosDoParticipante(){
+		
+	}
 }
