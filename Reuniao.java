@@ -27,4 +27,8 @@ public class Reuniao
 	public void imprimeDadosDaReuniao(){
 		
 	}
+
+	public HashMap<String, Participante> getParticipantes(){
+		return this.participantes;
+	}
 }

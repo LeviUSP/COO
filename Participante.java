@@ -20,6 +20,10 @@ public class Participante extends Pessoa
 			return intervalos.get(indice);
 	}
 
+	public ArrayList<Intervalo> getIntervalos(){
+		return this.intervalos;
+	}
+
 	public void imprimeDadosDoParticipante(){
 		
 	}

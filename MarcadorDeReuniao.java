@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,7 +29,8 @@ public class MarcadorDeReuniao
 	}
 
 	public void mostraSobreposicao(){
-		HashMap<String, Participante> listaDeParticipantes;
+		ArrayList<Participante> participantes = new ArrayList<>(reuniao.getParticipantes().values());
+			
 	}
 	
 
