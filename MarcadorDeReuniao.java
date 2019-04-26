@@ -12,14 +12,8 @@ public class MarcadorDeReuniao
 	public void marcarReuniaoEntre(LocalDate dataInicial, LocalDate dataFinal, Collection<String> listaDeParticipantes){
 		HashMap<String, Participante> participantes = criarHashMapComParticipantes(listaDeParticipantes);
 		 
-
-		Scanner sc = new Scanner(System.in);
-		
-		//repensar o organizador
-		Pessoa organizador = new Pessoa();
-		organizador.setNome(sc.next());
 	
-		reuniao = new Reuniao(dataInicial, dataFinal, participantes, organizador);
+		reuniao = new Reuniao(dataInicial, dataFinal, participantes);
 
 	}
 	public void indicaDisponibilidadeDe(String participante, LocalDateTime inicio, LocalDateTime fim){
@@ -35,7 +29,7 @@ public class MarcadorDeReuniao
 	}
 
 	public void mostraSobreposicao(){
-		HashMap<String, Participante> listaDeParticipantes = reuniao.
+		HashMap<String, Participante> listaDeParticipantes;
 	}
 	
 

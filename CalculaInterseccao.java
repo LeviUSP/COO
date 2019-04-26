@@ -1,11 +1,26 @@
 import java.util.HashMap;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Set;
 
-public abstract class CalculaInterseccao
+public class CalculaInterseccao
 {
 	private HashMap<String, Participante> participantes;
-	private LocalDateTime inicio;
-	private LocalDateTime fim;
+	private ArrayList<Intervalo> interseccoes;
 
-	public abstract void imprimeInterseccao();
+	private Set<String> listaDeParticipantes;
+
+	CalculaInterseccao(){
+		listaDeParticipantes = participantes.keySet();
+
+	}
+
+	public void imprimeInterseccoes(){
+
+	}
+
+
+	public void calcularInterseccao(Participante p, LocalDateTime inicio, LocalDateTime fim, int contador){
+
+	}
 }
