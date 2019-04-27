@@ -29,8 +29,10 @@ public class CalculaInterseccao
 			
 			Participante participante = listaDeParticipantes.get(indice);
 			for(Intervalo i : participante.getIntervalos()){
+				
 				//se estiver dentro do intervalo
 				if(!(i.getInicio().isAfter(fim) || i.getFim().isBefore(inicio))){
+					
 					//se o final do intervalo do participante for menor que o intervalo da interseccao
 					if(i.getFim().isBefore(fim) || i.getFim().isEqual(fim)) 
 						fim = i.getFim();
