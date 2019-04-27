@@ -10,20 +10,24 @@ public class CalculaInterseccao
 
 	private ArrayList<Participante> listaDeParticipantes;
 
-	CalculaInterseccao(ArrayList <Participante> listaDeParticipantes){
-		this.listaDeParticipantes = listaDeParticipantes;
+	CalculaInterseccao(HashMap <String, Participante> listaDeParticipantes){
+		this.listaDeParticipantes = new ArrayList<>(listaDeParticipantes.values());
 	}
 
 	public void imprimeInterseccoes(){
-
+		for(Intervalo interseccao : interseccoes){
+			System.out.println("Interseccao comeca em: " + interseccao.getInicio() +
+									" e termina em: " + interseccao.getFim());
+		}
 	}
 
-	public void calcularInterseccao(Participante participante, LocalDateTime inicio, LocalDateTime fim, int contador){
-		if(contador <= listaDeParticipantes.size()){
+	public void calcularInterseccoes(LocalDateTime inicio, LocalDateTime fim, int indice){
+		if(indice < listaDeParticipantes.size()){
 			//se ele chegar no final e inicio < fim
-			if(contador == listaDeParticipantes.size() && inicio.isBefore(fim)) 
+			if(indice == (listaDeParticipantes.size()-1) && inicio.isBefore(fim)) 
 				interseccoes.add(new Intervalo(inicio, fim)); // adicionar na Lista Ligada de interseccoes
 			
+			Participante participante = listaDeParticipantes.get(indice);
 			for(Intervalo i : participante.getIntervalos()){
 				//se estiver dentro do intervalo
 				if(!(i.getInicio().isAfter(fim) || i.getFim().isBefore(inicio))){
@@ -35,7 +39,7 @@ public class CalculaInterseccao
 						inicio = i.getInicio();
 					
 					//chama esse método novamente para a o próximo elemento
-					calcularInterseccao(listaDeParticipantes.get(contador+1), inicio, fim, contador+1);
+					calcularInterseccoes(inicio, fim, indice+1);
 					
 				}
 			}
