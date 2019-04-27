@@ -23,9 +23,6 @@ public class CalculaInterseccao
 
 	public void calcularInterseccoes(LocalDateTime inicio, LocalDateTime fim, int indice){
 		if(indice < listaDeParticipantes.size()){
-			//se ele chegar no final e inicio < fim
-			if(indice == (listaDeParticipantes.size()-1) && inicio.isBefore(fim)) 
-				interseccoes.add(new Intervalo(inicio, fim)); // adicionar na Lista Ligada de interseccoes
 			
 			Participante participante = listaDeParticipantes.get(indice);
 			for(Intervalo i : participante.getIntervalos()){
@@ -45,6 +42,9 @@ public class CalculaInterseccao
 					
 				}
 			}
+			//se ele chegar no final e inicio < fim
+			if(indice == (listaDeParticipantes.size()-1) && inicio.isBefore(fim)) 
+				interseccoes.add(new Intervalo(inicio, fim)); // adicionar na Lista Ligada de interseccoes
 			
 		}
 	}
