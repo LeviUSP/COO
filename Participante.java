@@ -19,6 +19,7 @@ public class Participante extends Pessoa
 		else
 			return intervalos.get(indice);
 	}
+
 	public ArrayList<Intervalo> getIntervalos(){
 		return this.intervalos;
 	}
@@ -41,5 +42,6 @@ public class Participante extends Pessoa
                 System.out.println("De " + i.getInicio().toLocalDate().toString() + " - " + i.getInicio().toLocalTime().toString());
                 System.out.println("Ate " + i.getFim().toLocalDate().toString() + " - " + i.getFim().toLocalTime().toString());
             }
+
 	}
 }

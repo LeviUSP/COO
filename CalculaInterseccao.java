@@ -7,11 +7,12 @@ import java.util.Set;
 public class CalculaInterseccao
 {
 	private ArrayList<Intervalo> interseccoes;
+  
 	private ArrayList<Participante> listaDeParticipantes;
 
-	CalculaInterseccao(ArrayList <Participante> listaDeParticipantes){
-		this.listaDeParticipantes = listaDeParticipantes;
-                this.interseccoes = new ArrayList();
+	CalculaInterseccao(HashMap <String, Participante> listaDeParticipantes){
+		this.listaDeParticipantes = new ArrayList<>(listaDeParticipantes.values());
+    this.interseccoes = new ArrayList<>();
 	}
 
 	public void imprimeInterseccoes(){
@@ -58,5 +59,6 @@ public class CalculaInterseccao
                 inicio = inicioTemp;
                 fim = fimTemp;
             }		
-	}
+
+	
 }

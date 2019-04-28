@@ -20,13 +20,13 @@ public class Pessoa
 		if(validarEmail(email))
 			this.email = email;
 		else
-			System.out.println("Esse email nao eh valido");
+			System.err.println("Esse email nao eh valido");
 	}
 
 	private boolean validarEmail(String email){
 		Pattern padraoDeEmail = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
-		Matcher padraoSeguido = padraoDeEmail.matcher(email);
+		Matcher padraoDaString = padraoDeEmail.matcher(email);
 
-		return padraoSeguido.matches();
+		return padraoDaString.matches();
 	} 
 }
