@@ -23,8 +23,25 @@ public class Participante extends Pessoa
 	public ArrayList<Intervalo> getIntervalos(){
 		return this.intervalos;
 	}
-
 	public void imprimeDadosDoParticipante(){
-		
+            System.out.println("Nome: " + super.getNome());
+	    
+            if(intervalos.isEmpty()){
+                System.out.println("Nao ha horarios de disponibilidade declarados por esse usuario!");
+                return;
+            }
+            
+            int contador = 0;
+            
+            System.out.println("Horarios declarados:");
+            
+            for(Intervalo i: intervalos)
+            {
+                contador++;
+                System.out.println("Intervalo " + contador + ":");
+                System.out.println("De " + i.getInicio().toLocalDate().toString() + " - " + i.getInicio().toLocalTime().toString());
+                System.out.println("Ate " + i.getFim().toLocalDate().toString() + " - " + i.getFim().toLocalTime().toString());
+            }
+
 	}
 }

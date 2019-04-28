@@ -10,17 +10,44 @@ public class MarcadorDeReuniao
 	private Reuniao reuniao;
 
 	public void marcarReuniaoEntre(LocalDate dataInicial, LocalDate dataFinal, Collection<String> listaDeParticipantes){
-		HashMap<String, Participante> participantes = criarHashMapComParticipantes(listaDeParticipantes);
-		 
+
+                try{
+                    HashMap<String, Participante> participantes = criarHashMapComParticipantes(listaDeParticipantes);
+                    
+                    verificaData(dataInicial, dataFinal);
 	
-		reuniao = new Reuniao(dataInicial, dataFinal, participantes);
+                    reuniao = new Reuniao(dataInicial, dataFinal, participantes);
+                }
+                catch(ListaVaziaException ex)
+                {
+                    System.err.println(ex.getMessage());
+                }
+                catch(DataInvalidaException ex)
+                {
+                    System.err.println(ex.getMessage());
+                }
+
+
 
 	}
 	public void indicaDisponibilidadeDe(String participante, LocalDateTime inicio, LocalDateTime fim){
 		Participante participanteAtual = reuniao.buscaParticipante(participante);
-		LocalDateTime dataInicialDaReuniao = LocalDateTime.from(reuniao.getDataInicial());
-		LocalDateTime dataFinalDaReuniao = LocalDateTime.from(reuniao.getDataFinal());
+
 		
+                if(participanteAtual == null){
+                    System.err.println("Participante de nome " + participante + " nao foi chamado para a reuniao!");
+                    return;
+                }
+		
+                if(fim.isBefore(inicio) || fim.isEqual(inicio)){
+                    System.err.println("O horario de disponibilidade final deve estar depois do inicial!");
+                    return;
+                }
+		
+		LocalDateTime dataInicialDaReuniao = reuniao.getDataInicial().atStartOfDay();
+		LocalDateTime dataFinalDaReuniao = reuniao.getDataFinal().atTime(23, 59);		
+
+
 		
 		if(inicio.isAfter(dataInicialDaReuniao) && fim.isBefore(dataFinalDaReuniao))
 			participanteAtual.adicionaIntervalo(inicio, fim);
@@ -29,29 +56,36 @@ public class MarcadorDeReuniao
 	}
 
 	public void mostraSobreposicao(){
-		CalculaInterseccao sobreposicoes = new CalculaInterseccao(reuniao.getParticipantes());
-
-		//DRY...
-		LocalDateTime dataInicialDaReuniao = LocalDateTime.from(reuniao.getDataInicial());
-		LocalDateTime dataFinalDaReuniao = LocalDateTime.from(reuniao.getDataFinal());
-
-		sobreposicoes.calcularInterseccoes(dataInicialDaReuniao, dataFinalDaReuniao, 0);
-		sobreposicoes.imprimeInterseccoes();
+                reuniao.imprimeDadosDaReuniao();
+                
+                CalculaInterseccao sobreposicoes = new CalculaInterseccao(reuniao.getParticipantes());
+                
+                LocalDateTime dataInicialDaReuniao = reuniao.getDataInicial().atStartOfDay();
+                LocalDateTime dataFinalDaReuniao = reuniao.getDataFinal().atTime(23, 59);
+                
+                sobreposicoes.calcularInterseccao(dataInicialDaReuniao, dataFinalDaReuniao, 0);   
+                
+                sobreposicoes.imprimeInterseccoes();			
 	}
-	
-
-
 	//métodos auxiliares
-	private HashMap<String, Participante> criarHashMapComParticipantes(Collection<String> listaDeParticipantes){
-		HashMap<String, Participante> participantes = new HashMap<>();
+	private HashMap<String, Participante> criarHashMapComParticipantes(Collection<String> listaDeParticipantes) throws ListaVaziaException{
+		if(listaDeParticipantes.isEmpty())
+                    throw new ListaVaziaException("A lista de participantes nao pode estar vazia!");
+                HashMap<String, Participante> participantes = new HashMap<>();
+  
 		
-		for (String interador : listaDeParticipantes){
-			Participante atual = new Participante();
-			atual.setNome(interador);
-			participantes.put(interador, atual);
-		}
+      for (String interador : listaDeParticipantes){
+        Participante atual = new Participante();
+        atual.setNome(interador);
+        participantes.put(interador, atual);
+      }
 
-		return participantes;
-	}
+		  return participantes;
+	}        
+  private void verificaData(LocalDate dataInicial, LocalDate dataFinal) throws DataInvalidaException
+  {
+            if(dataFinal.isBefore(dataInicial) || dataFinal.isEqual(dataInicial))
+                throw new DataInvalidaException("A data que delimita o prazo maximo da reuniao deve estar apos a data que delimita o prazo minimo da reuniao!");
+   }
 
 }

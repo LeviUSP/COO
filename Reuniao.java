@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Reuniao
 {
@@ -11,12 +12,12 @@ public class Reuniao
 		this.dataInicial = dataInicial;
 		this.dataFinal = dataFinal;
 		this.participantes = participantes;
-	}
-	
+
+	}	
 	public Participante buscaParticipante(String participante){
 		return participantes.get(participante);
 	}
-
+  
 	public LocalDate getDataInicial(){
 		return this.dataInicial;
 	}
@@ -25,7 +26,13 @@ public class Reuniao
 	}
 
 	public void imprimeDadosDaReuniao(){
+            System.out.println("Dados dos participantes:");
 		
+            ArrayList<Participante> listaParticipante = new ArrayList<>(participantes.values());
+		
+            for(Participante p: listaParticipante){
+                p.imprimeDadosDoParticipante();
+            }
 	}
 
 	public HashMap<String, Participante> getParticipantes(){
