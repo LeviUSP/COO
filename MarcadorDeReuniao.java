@@ -29,8 +29,14 @@ public class MarcadorDeReuniao
 	}
 
 	public void mostraSobreposicao(){
-		ArrayList<Participante> participantes = new ArrayList<>(reuniao.getParticipantes().values());
-			
+		CalculaInterseccao sobreposicoes = new CalculaInterseccao(reuniao.getParticipantes());
+
+		//DRY...
+		LocalDateTime dataInicialDaReuniao = LocalDateTime.from(reuniao.getDataInicial());
+		LocalDateTime dataFinalDaReuniao = LocalDateTime.from(reuniao.getDataFinal());
+
+		sobreposicoes.calcularInterseccoes(dataInicialDaReuniao, dataFinalDaReuniao, 0);
+		sobreposicoes.imprimeInterseccoes();
 	}
 	
 
