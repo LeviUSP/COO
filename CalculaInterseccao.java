@@ -29,8 +29,8 @@ public class CalculaInterseccao
             for(Intervalo i: interseccoes){
                 contador++;
                 System.out.println("Intervalo " + contador + ":");
-                System.out.println("De " + i.getInicio().toLocalDate().toString() + " - " + i.getInicio().toLocalTime().toString());
-                System.out.println("Ate " + i.getFim().toLocalDate().toString() + " - " + i.getFim().toLocalTime().toString());
+                System.out.println("   De " + i.getInicio().toLocalDate().toString() + " - " + i.getInicio().toLocalTime().toString());
+                System.out.println("   Ate " + i.getFim().toLocalDate().toString() + " - " + i.getFim().toLocalTime().toString());
             }
 	}
 
@@ -60,5 +60,5 @@ public class CalculaInterseccao
                 fim = fimTemp;
             }		
 
-	
+    }
 }

@@ -10,11 +10,6 @@ public class Teste{
         Scanner sc = new Scanner(System.in);
         int dia, mes, ano;
 
-        System.out.println("");
-        System.out.println("Todos os dias serao inseridos como 2019-04-30 e os horarios como 2019-04-30T23:59:59");
-        System.out.println("....o horário de entrega");
-        System.out.println("");
-
         System.out.println("Insira aqui a data inicial da reuniao");
         LocalDate inicioDaReuniao = LocalDate.parse(sc.nextLine());
 
@@ -39,21 +34,14 @@ public class Teste{
             System.out.println();
             System.out.println(participante + ", reponda os seus horarios disponiveis");
             while(true){
-                System.out.println("Qual o horário inicial?");
-                LocalDateTime horarioInicial = LocalDateTime.parse(sc.nextLine());
-
-                System.out.println("Qual o horário final?");
-                LocalDateTime horarioFinal = LocalDateTime.parse(sc.nextLine());
-
-                organizador.indicaDisponibilidadeDe(participante, horarioInicial, horarioFinal);
-
-               
-                System.out.println("Tem mais algum horario disponivel?");
-                String resp = sc.nextLine();
+                String resp = sc.nextLine().trim();
                 if(resp.equals("nao"))
                     break;
-                System.out.println("Entao nos informe:");
-             }            
+
+                String[] horario = separarAsVirgulas(resp);
+               
+                organizador.indicaDisponibilidadeDe(participante, LocalDateTime.parse(horario[0]), LocalDateTime.parse(horario[1]));
+            }            
         }
     }
     static Collection<String> transformarStringEmCollection(String lista){
