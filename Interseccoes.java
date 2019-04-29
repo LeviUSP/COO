@@ -12,7 +12,7 @@ public class Interseccoes
 
 	Interseccoes(HashMap <String, Participante> listaDeParticipantes){
 		this.listaDeParticipantes = new ArrayList<>(listaDeParticipantes.values());
-    this.interseccoes = new ArrayList<>();
+        this.interseccoes = new ArrayList<>();
 	}
 
 	public void imprimeInterseccoes(){
@@ -60,5 +60,9 @@ public class Interseccoes
                 fim = fimTemp;
             }		
 
+    }
+
+    public ArrayList<Intervalo> getInterseccoes(){
+        return this.interseccoes;
     }
 }
