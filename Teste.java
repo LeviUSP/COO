@@ -10,13 +10,13 @@ public class Teste{
         Scanner sc = new Scanner(System.in);
         int dia, mes, ano;
 
-        System.out.println("Insira aqui a data inicial da reuniao");
+        // System.out.println("Insira aqui a data inicial da reuniao");
         LocalDate inicioDaReuniao = LocalDate.parse(sc.nextLine());
 
-        System.out.println("Insira aqui a data final da reuniao");
+        // System.out.println("Insira aqui a data final da reuniao");
         LocalDate fimDaReuniao = LocalDate.parse(sc.nextLine());
 
-        System.out.println("Insira aqui a lista de participantes separados por virgula da reuniao");
+        // System.out.println("Insira aqui a lista de participantes separados por virgula da reuniao");
         Collection<String> listaDeParticipantes = transformarStringEmCollection(sc.nextLine());
     
         organizador.marcarReuniaoEntre(inicioDaReuniao, fimDaReuniao, listaDeParticipantes);
