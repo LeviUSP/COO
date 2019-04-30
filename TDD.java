@@ -1,4 +1,4 @@
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -101,12 +101,12 @@ public class TDD{
         Participante p2 = new Participante();
         p2.setEmail("marcos@usp.br");
         p2.adicionaIntervalo(LocalDateTime.of(2019, 5, 1, 10, 0), LocalDateTime.of(2019, 5, 2, 22, 0));
-        p2.adicionaIntervalo(LocalDateTime.of(2019, 5, 2, 12, 0), LocalDateTime.of(2019, 5, 2, 22, 0));
         participantes.put(p2.getEmail(), p2);
 
         Participante p3 = new Participante();
         p3.setEmail("daniel@usp.br");
         p3.adicionaIntervalo(LocalDateTime.of(2019, 5, 1, 8, 0), LocalDateTime.of(2019, 5, 1, 18, 0));
+        p3.adicionaIntervalo(LocalDateTime.of(2019, 5, 2, 12, 0), LocalDateTime.of(2019, 5, 2, 22, 0));
         participantes.put(p3.getEmail(), p3);
 
         Participante p4 = new Participante();
@@ -119,13 +119,15 @@ public class TDD{
         
         interseccao.calcularInterseccoes(LocalDateTime.of(2019, 5, 1, 0, 0), LocalDateTime.of(2019, 5, 5, 23, 59), 0);
 
+        assertEquals(2, interseccao.getInterseccoes().size());
+
         //primeira intersseccao
         assertTrue(interseccao.getInterseccoes().get(0).getInicio().isEqual(LocalDateTime.of(2019, 5, 1, 15, 0)));
         assertTrue(interseccao.getInterseccoes().get(0).getFim().isEqual(LocalDateTime.of(2019, 5, 1, 18, 0)));
 
         //segunda interseccao
-        assertTrue(interseccao.getInterseccoes().get(0).getInicio().isEqual(LocalDateTime.of(2019, 5, 2, 12, 0)));
-        assertTrue(interseccao.getInterseccoes().get(0).getFim().isEqual(LocalDateTime.of(2019, 5, 2, 22, 0)));
+        assertTrue(interseccao.getInterseccoes().get(1).getInicio().isEqual(LocalDateTime.of(2019, 5, 2, 12, 0)));
+        assertTrue(interseccao.getInterseccoes().get(1).getFim().isEqual(LocalDateTime.of(2019, 5, 2, 22, 0)));
     }
 
     @Test

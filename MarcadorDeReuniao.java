@@ -26,6 +26,9 @@ public class MarcadorDeReuniao
 		{
 			System.err.println(ex.getMessage());
 		}
+		catch(EmailInvalidoException e) {
+			System.err.println(e.getMessage());
+		}
 
 
 
@@ -68,7 +71,7 @@ public class MarcadorDeReuniao
                 sobreposicoes.imprimeInterseccoes();			
 	}
 	//métodos auxiliares
-	private HashMap<String, Participante> criarHashMapComParticipantes(Collection<String> listaDeParticipantes) throws ListaVaziaException{
+	private HashMap<String, Participante> criarHashMapComParticipantes(Collection<String> listaDeParticipantes) throws ListaVaziaException, EmailInvalidoException{
 		if(listaDeParticipantes.isEmpty())
                     throw new ListaVaziaException("A lista de participantes nao pode estar vazia!");
                 HashMap<String, Participante> participantes = new HashMap<>();
@@ -76,7 +79,9 @@ public class MarcadorDeReuniao
 		
       for (String interador : listaDeParticipantes){
         Participante atual = new Participante();
-        atual.setEmail(interador);
+				atual.setEmail(interador);
+				if(atual.getEmail() == null)
+					throw new EmailInvalidoException("Email inserido " + interador + " eh invalido");
         participantes.put(interador, atual);
       }
 
