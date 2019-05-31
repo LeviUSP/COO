@@ -1,0 +1,83 @@
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public class GerenciadorDeSalas
+{
+	private final List<Sala> salas;
+	private final List<Reserva> reservas;
+
+	public GerenciadorDeSalas()
+	{
+		this.salas = new ArrayList<>();
+		this.reservas = new ArrayList<>();
+	}
+
+	public void adicionaSalaChamada(Sala sala, int capacidade, String descricao)
+	{
+
+		for(Sala s: salas)
+		{
+			if(s.getNome().equals(sala.getNome()))
+			{
+				System.err.println("Sala já existe!");
+				return;
+			}
+		}
+		
+		Sala novaSala = new Sala(sala, capacidade, descricao);
+		salas.add(novaSala);
+	}
+	public void removeSalaChamada(String nome)
+	{
+		Iterator<Sala> it = salas.iterator();
+
+		while(it.hasNext())
+		{
+			if(it.next().getNome().equals(nome))
+			{
+				it.remove();
+				return;
+			}
+		}
+
+		System.err.println("Não existe sala com nome " + nome);
+	}
+	public List<Sala> listaDeSalas()
+	{
+		return new ArrayList<>(salas);
+	}
+	public void adicionaSala(Sala sala)
+	{
+		for(Sala s: salas)
+		{
+			if(s.getNome().equals(sala.getNome))
+			{
+				System.err.println("A sala já existe!");
+				return;
+			}
+		}
+
+		salas.add(sala);
+	}
+	public void reservaSalaChamada(String nome, LocalDateTime inicioDaReserva, LocalDateTime fimDaReserva)
+	{}
+	public void cancelaReserva(Reserva reserva)
+	{
+		Iterator<Reserva> it = reservas.iterator();
+
+		while(it.hasNext())
+		{
+			if(it.next() == reserva)
+			{
+				it.remove();
+				return;
+			}
+		}
+
+		System.err.println("A reserva não existe!");
+	}
+	public Collections<Reserva> reservaParaSala(Sala sala)
+	{}
+	public void imprimeReservasDaSala(Sala sala)
+	{}
+}
