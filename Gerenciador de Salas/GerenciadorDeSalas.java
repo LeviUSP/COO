@@ -1,5 +1,8 @@
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GerenciadorDeSalas
 {
@@ -12,30 +15,39 @@ public class GerenciadorDeSalas
 		this.reservas = new ArrayList<>();
 	}
 
-	public void adicionaSalaChamada(Sala sala, int capacidade, String descricao)
+	public void adicionaSalaChamada(String nome, int capacidade, String descricao)
 	{
 
 		for(Sala s: salas)
 		{
-			if(s.getNome().equals(sala.getNome()))
+			if(s.getNome().equals(nome))
 			{
 				System.err.println("Sala já existe!");
 				return;
 			}
 		}
 		
-		Sala novaSala = new Sala(sala, capacidade, descricao);
+		Sala novaSala = new Sala(nome, capacidade, descricao);
 		salas.add(novaSala);
 	}
 	public void removeSalaChamada(String nome)
 	{
-		Iterator<Sala> it = salas.iterator();
+		Iterator<Sala> itSala = salas.iterator();
+		Iterator<Reserva> itReserva = reservas.iterator();
+		Sala temp;
 
-		while(it.hasNext())
+		while(itSala.hasNext())
 		{
-			if(it.next().getNome().equals(nome))
+		    temp = itSala.next();
+			if(temp.getNome().equals(nome))
 			{
-				it.remove();
+				itSala.remove();
+				
+				while(itReserva.hasNext())
+				{
+				    if(itReserva.next().getSala() == temp)
+				        itReserva.remove();
+				}
 				return;
 			}
 		}
@@ -50,7 +62,7 @@ public class GerenciadorDeSalas
 	{
 		for(Sala s: salas)
 		{
-			if(s.getNome().equals(sala.getNome))
+			if(s.getNome().equals(sala.getNome()))
 			{
 				System.err.println("A sala já existe!");
 				return;
@@ -59,8 +71,54 @@ public class GerenciadorDeSalas
 
 		salas.add(sala);
 	}
-	public void reservaSalaChamada(String nome, LocalDateTime inicioDaReserva, LocalDateTime fimDaReserva)
-	{}
+	public Reserva reservaSalaChamada(String nome, LocalDateTime inicioDaReserva, LocalDateTime fimDaReserva)
+	{
+		Reserva novaReserva = null;
+		Sala salaParaReservar = null;
+
+		try
+		{
+			if(inicioDaReserva.isAfter(fimDaReserva)||inicioDaReserva.isEqual(fimDaReserva))
+				throw new DataInvalidaException("O inicio da reserva deve ser antes do fim!");
+
+			for(Sala s: salas)
+			{
+				if(s.getNome().equals(nome))
+				{
+					salaParaReservar = s;
+					break;
+				}
+			}
+
+			if(salaParaReservar == null)
+				throw new SalaInexistenteException("Sala não existe!");
+			
+			for(Reserva r: reservas)
+			{
+				if((r.getSala() == salaParaReservar) && (!(fimDaReserva.isBefore(r.getInicioDaReserva())||inicioDaReserva.isAfter(r.getFimDaReserva()))))
+					throw new SalaReservadaException("A sala já está reservada no horário de " + r.getInicioDaReserva().toString() + " até " + r.getFimDaReserva().toString() + "!");
+			}
+
+			novaReserva = new Reserva(inicioDaReserva, fimDaReserva, salaParaReservar);
+			reservas.add(novaReserva);
+		}
+		catch(DataInvalidaException ex)
+		{
+			System.err.println(ex.getMessage());
+		}
+		catch(SalaInexistenteException ex)
+		{
+			System.err.println(ex.getMessage());
+		}
+		catch(SalaReservadaException ex)
+		{
+			System.err.println(ex.getMessage());
+		}
+		finally
+		{
+			return novaReserva;
+		}
+	}
 	public void cancelaReserva(Reserva reserva)
 	{
 		Iterator<Reserva> it = reservas.iterator();
@@ -76,8 +134,38 @@ public class GerenciadorDeSalas
 
 		System.err.println("A reserva não existe!");
 	}
-	public Collections<Reserva> reservaParaSala(Sala sala)
-	{}
+	public Collection<Reserva> reservaParaSala(Sala sala)
+	{
+		Collection<Reserva> resposta = new ArrayList<>();
+
+		for(Reserva r: reservas)
+		{
+			if(r.getSala() == sala)
+			{
+				resposta.add(r);
+			}
+		}
+
+		return resposta;
+	}
 	public void imprimeReservasDaSala(Sala sala)
-	{}
+	{
+		int i = 0;
+
+		for(Reserva r: reservas)
+		{
+			if(r.getSala() == sala)
+			{
+				i++;
+				System.out.println("Reserva " + i + ":\n");
+				System.out.print("De " + r.getInicioDaReserva().toLocalDate().toString());
+				System.out.println(" às " + r.getInicioDaReserva().toLocalTime().toString());
+				System.out.print("Até " + r.getFimDaReserva().toLocalDate().toString());
+				System.out.println(" às " + r.getFimDaReserva().toLocalTime().toString() + "\n");
+			}
+		}
+
+		if(i == 0)
+			System.out.println("Não há reservas para esta sala");
+	}
 }
