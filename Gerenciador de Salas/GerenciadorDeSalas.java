@@ -15,7 +15,7 @@ public class GerenciadorDeSalas
 		this.reservas = new ArrayList<>();
 	}
 
-	public void adicionaSalaChamada(String nome, int capacidade, String descricao)
+	public void adicionaSalaChamada(String nome, String local, int capacidade, String descricao)
 	{
 
 		for(Sala s: salas)
@@ -27,7 +27,7 @@ public class GerenciadorDeSalas
 			}
 		}
 		
-		Sala novaSala = new Sala(nome, capacidade, descricao);
+		Sala novaSala = new Sala(nome, local, capacidade, descricao);
 		salas.add(novaSala);
 	}
 	public void removeSalaChamada(String nome)
