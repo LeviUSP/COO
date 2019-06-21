@@ -11,7 +11,7 @@ public class GerenciadorDeSalas
 	private final List<Sala> salas;
 	private final List<Reserva> reservas;
 
-	public GerenciadorDeSalas()
+	private GerenciadorDeSalas()
 	{
 		this.salas = new ArrayList<>();
 		this.reservas = new ArrayList<>();
@@ -20,7 +20,10 @@ public class GerenciadorDeSalas
 	public static GerenciadorDeSalas getGerenciadorDeSalas(){
 		if(instance == null)
 		{
-			instance = new GerenciadorDeSalas();
+			synchronized (GerenciadorDeSalas.class)
+			{
+				instance = new GerenciadorDeSalas();
+			}
 		}
 		return instance;
 	}
