@@ -6,17 +6,21 @@ import java.util.Iterator;
 
 public class GerenciadorDeSalas
 {
-	private static GerenciadorDeSalas instance;
+	private static GerenciadorDeSalas instance = null;
 
 	private final List<Sala> salas;
 	private final List<Reserva> reservas;
+	private final ManipuladorDeSalas manipuladorDeSalas;
+	private final ManipuladorDeReservas manipuladorDeReservas;
 
 	private GerenciadorDeSalas()
 	{
 		this.salas = new ArrayList<>();
 		this.reservas = new ArrayList<>();
+		this.manipuladorDeSalas = new ManipuladorDeSalas();
+		this.manipuladorDeReservas = new ManipuladorDeReservas();
 	}
-	
+
 	public static GerenciadorDeSalas getGerenciadorDeSalas(){
 		if(instance == null)
 		{
@@ -28,93 +32,33 @@ public class GerenciadorDeSalas
 		return instance;
 	}
 
-
-	public void adicionaSalaChamada(String nome, int capacidade, String descricao)
+	public void adicionaSalaChamada(String nome, String local, int capacidade, String descricao)
 	{
-
-		for(Sala s: salas)
-		{
-			if(s.getNome().equals(nome))
-			{
-				System.err.println("Sala já existe!");
-				return;
-			}
-		}
-		
-		Sala novaSala = new Sala(nome, local, capacidade, descricao);
-		salas.add(novaSala);
+		manipuladorDeSalas.adicionaSalaChamada(nome, local, capacidade, descricao, this.salas);		
 	}
+
 	public void removeSalaChamada(String nome)
 	{
-		Iterator<Sala> itSala = salas.iterator();
-		Iterator<Reserva> itReserva = reservas.iterator();
-		Sala temp;
-
-		while(itSala.hasNext())
-		{
-		    temp = itSala.next();
-			if(temp.getNome().equals(nome))
-			{
-				itSala.remove();
-				
-				while(itReserva.hasNext())
-				{
-				    if(itReserva.next().getSala() == temp)
-				        itReserva.remove();
-				}
-				return;
-			}
-		}
-
-		System.err.println("Não existe sala com nome " + nome);
+		manipuladorDeSalas.removeSalaChamada(nome, this.salas, this.reservas);
 	}
+
 	public List<Sala> listaDeSalas()
 	{
 		return new ArrayList<>(salas);
 	}
+
 	public void adicionaSala(Sala sala)
 	{
-		for(Sala s: salas)
-		{
-			if(s.getNome().equals(sala.getNome()))
-			{
-				System.err.println("A sala já existe!");
-				return;
-			}
-		}
-
-		salas.add(sala);
+		manipuladorDeSalas.adicionaSala(sala, this.salas);
 	}
+
 	public Reserva reservaSalaChamada(String nome, LocalDateTime inicioDaReserva, LocalDateTime fimDaReserva)
 	{
 		Reserva novaReserva = null;
-		Sala salaParaReservar = null;
 
 		try
 		{
-			if(inicioDaReserva.isAfter(fimDaReserva)||inicioDaReserva.isEqual(fimDaReserva))
-				throw new DataInvalidaException("O inicio da reserva deve ser antes do fim!");
-
-			for(Sala s: salas)
-			{
-				if(s.getNome().equals(nome))
-				{
-					salaParaReservar = s;
-					break;
-				}
-			}
-
-			if(salaParaReservar == null)
-				throw new SalaInexistenteException("Sala não existe!");
-			
-			for(Reserva r: reservas)
-			{
-				if((r.getSala() == salaParaReservar) && (!(fimDaReserva.isBefore(r.getInicioDaReserva())||inicioDaReserva.isAfter(r.getFimDaReserva()))))
-					throw new SalaReservadaException("A sala já está reservada no horário de " + r.getInicioDaReserva().toString() + " até " + r.getFimDaReserva().toString() + "!");
-			}
-
-			novaReserva = new Reserva(inicioDaReserva, fimDaReserva, salaParaReservar);
-			reservas.add(novaReserva);
+			novaReserva = manipuladorDeReservas.reservaSalaChamada(nome, inicioDaReserva, fimDaReserva, this.salas, this.reservas);
 		}
 		catch(DataInvalidaException ex)
 		{
@@ -133,53 +77,19 @@ public class GerenciadorDeSalas
 			return novaReserva;
 		}
 	}
+
 	public void cancelaReserva(Reserva reserva)
 	{
-		Iterator<Reserva> it = reservas.iterator();
-
-		while(it.hasNext())
-		{
-			if(it.next() == reserva)
-			{
-				it.remove();
-				return;
-			}
-		}
-
-		System.err.println("A reserva não existe!");
+		manipuladorDeReservas.cancelaReserva(reserva, reservas);
 	}
+
 	public Collection<Reserva> reservaParaSala(Sala sala)
 	{
-		Collection<Reserva> resposta = new ArrayList<>();
-
-		for(Reserva r: reservas)
-		{
-			if(r.getSala() == sala)
-			{
-				resposta.add(r);
-			}
-		}
-
-		return resposta;
+		return manipuladorDeReservas.reservaParaSala(sala, reservas);
 	}
+	
 	public void imprimeReservasDaSala(Sala sala)
 	{
-		int i = 0;
-
-		for(Reserva r: reservas)
-		{
-			if(r.getSala() == sala)
-			{
-				i++;
-				System.out.println("Reserva " + i + ":\n");
-				System.out.print("De " + r.getInicioDaReserva().toLocalDate().toString());
-				System.out.println(" às " + r.getInicioDaReserva().toLocalTime().toString());
-				System.out.print("Até " + r.getFimDaReserva().toLocalDate().toString());
-				System.out.println(" às " + r.getFimDaReserva().toLocalTime().toString() + "\n");
-			}
-		}
-
-		if(i == 0)
-			System.out.println("Não há reservas para esta sala");
+		manipuladorDeReservas.imprimeReservasDaSala(sala, reservas);
 	}
 }
