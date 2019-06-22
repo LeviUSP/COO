@@ -16,7 +16,7 @@ public class GerenciadorDeSalas
 		this.salas = new ArrayList<>();
 		this.reservas = new ArrayList<>();
 	}
-
+	
 	public static GerenciadorDeSalas getGerenciadorDeSalas(){
 		if(instance == null)
 		{
@@ -41,7 +41,7 @@ public class GerenciadorDeSalas
 			}
 		}
 		
-		Sala novaSala = new Sala(nome, capacidade, descricao);
+		Sala novaSala = new Sala(nome, local, capacidade, descricao);
 		salas.add(novaSala);
 	}
 	public void removeSalaChamada(String nome)
