@@ -6,16 +6,30 @@ import java.util.Iterator;
 
 public class GerenciadorDeSalas
 {
+	private static GerenciadorDeSalas instance;
+
 	private final List<Sala> salas;
 	private final List<Reserva> reservas;
 
-	public GerenciadorDeSalas()
+	private GerenciadorDeSalas()
 	{
 		this.salas = new ArrayList<>();
 		this.reservas = new ArrayList<>();
 	}
+	
+	public static GerenciadorDeSalas getGerenciadorDeSalas(){
+		if(instance == null)
+		{
+			synchronized (GerenciadorDeSalas.class)
+			{
+				instance = new GerenciadorDeSalas();
+			}
+		}
+		return instance;
+	}
 
-	public void adicionaSalaChamada(String nome, String local, int capacidade, String descricao)
+
+	public void adicionaSalaChamada(String nome, int capacidade, String descricao)
 	{
 
 		for(Sala s: salas)
