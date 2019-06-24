@@ -28,12 +28,12 @@ public class ManipuladorDeReservas
 		}
 
 		if(salaParaReservar == null)
-			throw new SalaInexistenteException("Sala não existe!");
+			throw new SalaInexistenteException("Sala nao existe!");
 			
 		for(Reserva r: reservas)
 		{
 			if((r.getSala() == salaParaReservar) && (!(fimDaReserva.isBefore(r.getInicioDaReserva())||inicioDaReserva.isAfter(r.getFimDaReserva()))))
-				throw new SalaReservadaException("A sala já está reservada no horário de " + r.getInicioDaReserva().toLocalTime().toString() + " de " + r.getInicioDaReserva().toLocalDate().toString() + " até " + r.getFimDaReserva().toLocalTime().toString() + " de " + r.getFimDaReserva().toLocalDate().toString() + "!");
+				throw new SalaReservadaException("A sala já está reservada no horario de " + r.getInicioDaReserva().toLocalTime().toString() + " de " + r.getInicioDaReserva().toLocalDate().toString() + " até " + r.getFimDaReserva().toLocalTime().toString() + " de " + r.getFimDaReserva().toLocalDate().toString() + "!");
 		}
 
 		novaReserva = new Reserva(inicioDaReserva, fimDaReserva, salaParaReservar);
@@ -84,13 +84,13 @@ public class ManipuladorDeReservas
 				i++;
 				System.out.println("Reserva " + i + ":\n");
 				System.out.print("De " + r.getInicioDaReserva().toLocalDate().toString());
-				System.out.println(" às " + r.getInicioDaReserva().toLocalTime().toString());
-				System.out.print("Até " + r.getFimDaReserva().toLocalDate().toString());
-				System.out.println(" às " + r.getFimDaReserva().toLocalTime().toString() + "\n");
+				System.out.println(" as " + r.getInicioDaReserva().toLocalTime().toString());
+				System.out.print("Ate " + r.getFimDaReserva().toLocalDate().toString());
+				System.out.println(" as " + r.getFimDaReserva().toLocalTime().toString() + "\n");
 			}
 		}
 
 		if(i == 0)
-			System.out.println("Não há reservas para esta sala");
+			System.out.println("Nao ha reservas para esta sala");
 	}
 }
