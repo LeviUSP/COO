@@ -11,39 +11,42 @@ public class MarcadorDeReuniao
 
 	public void marcarReuniaoEntre(LocalDate dataInicial, LocalDate dataFinal, Collection<String> listaDeParticipantes){
 
-                try{
-                    HashMap<String, Participante> participantes = criarHashMapComParticipantes(listaDeParticipantes);
-                    
-                    verificaData(dataInicial, dataFinal);
-	
-                    reuniao = new Reuniao(dataInicial, dataFinal, participantes);
-                }
-                catch(ListaVaziaException ex)
-                {
-                    System.err.println(ex.getMessage());
-                }
-                catch(DataInvalidaException ex)
-                {
-                    System.err.println(ex.getMessage());
-                }
+		try{
+			HashMap<String, Participante> participantes = criarHashMapComParticipantes(listaDeParticipantes);
+			
+			verificaData(dataInicial, dataFinal);
+
+			reuniao = new Reuniao(dataInicial, dataFinal, participantes);
+		}
+		catch(ListaVaziaException ex)
+		{
+			System.err.println(ex.getMessage());
+		}
+		catch(DataInvalidaException ex)
+		{
+			System.err.println(ex.getMessage());
+		}
+		catch(EmailInvalidoException e) {
+			System.err.println(e.getMessage());
+		}
 
 
 
 	}
 	public void indicaDisponibilidadeDe(String participante, LocalDateTime inicio, LocalDateTime fim){
 		Participante participanteAtual = reuniao.buscaParticipante(participante);
+		
+		
+		if(participanteAtual == null){	
+			System.err.println("Participante de email " + participante + " nao foi chamado para a reuniao!");
+			return;
+		}
 
-		
-                if(participanteAtual == null){
-                    System.err.println("Participante de nome " + participante + " nao foi chamado para a reuniao!");
-                    return;
-                }
-		
-                if(fim.isBefore(inicio) || fim.isEqual(inicio)){
-                    System.err.println("O horario de disponibilidade final deve estar depois do inicial!");
-                    return;
-                }
-		
+		if(fim.isBefore(inicio) || fim.isEqual(inicio)){
+			System.err.println("O horario de disponibilidade final deve estar depois do inicial!");
+			return;
+		}
+
 		LocalDateTime dataInicialDaReuniao = reuniao.getDataInicial().atStartOfDay();
 		LocalDateTime dataFinalDaReuniao = reuniao.getDataFinal().atTime(23, 59);		
 
@@ -58,17 +61,17 @@ public class MarcadorDeReuniao
 	public void mostraSobreposicao(){
                 reuniao.imprimeDadosDaReuniao();
                 
-                CalculaInterseccao sobreposicoes = new CalculaInterseccao(reuniao.getParticipantes());
+                Interseccoes sobreposicoes = new Interseccoes(reuniao.getParticipantes());
                 
                 LocalDateTime dataInicialDaReuniao = reuniao.getDataInicial().atStartOfDay();
                 LocalDateTime dataFinalDaReuniao = reuniao.getDataFinal().atTime(23, 59);
                 
-                sobreposicoes.calcularInterseccao(dataInicialDaReuniao, dataFinalDaReuniao, 0);   
+                sobreposicoes.calcularInterseccoes(dataInicialDaReuniao, dataFinalDaReuniao, 0);   
                 
                 sobreposicoes.imprimeInterseccoes();			
 	}
 	//métodos auxiliares
-	private HashMap<String, Participante> criarHashMapComParticipantes(Collection<String> listaDeParticipantes) throws ListaVaziaException{
+	private HashMap<String, Participante> criarHashMapComParticipantes(Collection<String> listaDeParticipantes) throws ListaVaziaException, EmailInvalidoException{
 		if(listaDeParticipantes.isEmpty())
                     throw new ListaVaziaException("A lista de participantes nao pode estar vazia!");
                 HashMap<String, Participante> participantes = new HashMap<>();
@@ -76,7 +79,9 @@ public class MarcadorDeReuniao
 		
       for (String interador : listaDeParticipantes){
         Participante atual = new Participante();
-        atual.setNome(interador);
+				atual.setEmail(interador);
+				if(atual.getEmail() == null)
+					throw new EmailInvalidoException("Email inserido " + interador + " eh invalido");
         participantes.put(interador, atual);
       }
 

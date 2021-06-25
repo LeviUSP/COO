@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class CalculaInterseccao
+public class Interseccoes
 {
 	private ArrayList<Intervalo> interseccoes;
   
 	private ArrayList<Participante> listaDeParticipantes;
 
-	CalculaInterseccao(HashMap <String, Participante> listaDeParticipantes){
+	Interseccoes(HashMap <String, Participante> listaDeParticipantes){
 		this.listaDeParticipantes = new ArrayList<>(listaDeParticipantes.values());
-    this.interseccoes = new ArrayList<>();
+        this.interseccoes = new ArrayList<>();
 	}
 
 	public void imprimeInterseccoes(){
@@ -29,12 +29,12 @@ public class CalculaInterseccao
             for(Intervalo i: interseccoes){
                 contador++;
                 System.out.println("Intervalo " + contador + ":");
-                System.out.println("De " + i.getInicio().toLocalDate().toString() + " - " + i.getInicio().toLocalTime().toString());
-                System.out.println("Ate " + i.getFim().toLocalDate().toString() + " - " + i.getFim().toLocalTime().toString());
+                System.out.println("   De " + i.getInicio().toLocalDate().toString() + " - " + i.getInicio().toLocalTime().toString());
+                System.out.println("   Ate " + i.getFim().toLocalDate().toString() + " - " + i.getFim().toLocalTime().toString());
             }
 	}
 
-	public void calcularInterseccao(LocalDateTime inicio, LocalDateTime fim, int indice){
+	public void calcularInterseccoes(LocalDateTime inicio, LocalDateTime fim, int indice){
             LocalDateTime inicioTemp = inicio;
             LocalDateTime fimTemp = fim;
             
@@ -42,23 +42,27 @@ public class CalculaInterseccao
 			
             for(Intervalo i : participante.getIntervalos()){
             	//se estiver dentro do intervalo
-		if(i.getInicio().isBefore(fim) && i.getFim().isAfter(inicio)){
+	        	if(i.getInicio().isBefore(fim) && i.getFim().isAfter(inicio)){
                     //se o final do intervalo do participante for menor que o intervalo da interseccao
                     if(i.getFim().isBefore(fim) || i.getFim().isEqual(fim)) 
                         fim = i.getFim();
                     //se o inicio do intervalo do participante for maior que o intervalo da interseccao
                     if(i.getInicio().isAfter(inicio) || i.getInicio().isEqual(fim)) 
-			inicio = i.getInicio();
+			            inicio = i.getInicio();
                     //se for o último participante
                     if(indice == listaDeParticipantes.size()-1)
                         interseccoes.add(new Intervalo(inicio, fim));//insere intersecção na lista
                     else                    
-                        calcularInterseccao(inicio, fim, indice+1);//caso contrário, chama esse método novamente para a o próximo elemento					
-		}
+                        calcularInterseccoes(inicio, fim, indice+1);//caso contrário, chama esse método novamente para a o próximo elemento					
+		        }
 		    
                 inicio = inicioTemp;
                 fim = fimTemp;
             }		
 
-	
+    }
+
+    public ArrayList<Intervalo> getInterseccoes(){
+        return this.interseccoes;
+    }
 }
